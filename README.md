@@ -16,7 +16,7 @@ Clone the project, change into the directory and install the dependencies.
 
 ```bash
 git clone https://github.com/milkman4/not-quite-perfect-quotes.git
-cd not-quite-perfect
+cd not-quite-perfect-quotes
 npm install
 ```
 
