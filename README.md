@@ -1,5 +1,9 @@
 # Not Quite Perfect Quotes
 
+## Notice:
+
+This project was cloned from a create-react-app + express.js starter kit https://github.com/philnash/react-express-starter - all commits in this repo prior to May 16 2020 are from another author.
+
 ### Purpose
 
 This project is created with the inspiration to showcase Asyncronous Logic and Data Manipulation. This achieves these two goals by sending a query to two different quote APIs [FavQ](https://favqs.com/) and [Advice Slip](https://api.adviceslip.com/)
@@ -37,6 +41,12 @@ Run both applications together with the command:
 npm run dev
 ```
 
+Run server tests with
+
+```bash
+npm run server-test
+```
+
 The React application will run on port 3000 and the server port 3001.
 
 # Code Overview
@@ -49,6 +59,7 @@ A few design priorities were established:
 
 1. The implementation should allow for easy extendability of new API end points and put the logic for normalizing that data in a location close to the configuration.
 2. The Promise.all fetch api implementation should allow for errors to occur in individual endpoints without preventing the successful api responses to fail. This should not be a silent failure, however, and some kind of logging should be implemented to alert the developer.
+3. The normalizer functions should be tested to ensure data integrity.
 
 ## Front End
 
@@ -57,3 +68,4 @@ The front end react app was designed in order to be as light-weight as possible 
 1. No results from the API
 2. Error handling from the API
 3. A loading spinner to indicate loading time
+4. API + Quote attribution
