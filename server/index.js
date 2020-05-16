@@ -11,6 +11,15 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
+/*
+Normalized Quote Object:
+{
+  id: Number
+  quote: String,
+  attribution: String,
+}
+*/
+
 const apiSources = [
   {
     apiSourceName: 'FavQs',
@@ -21,7 +30,11 @@ const apiSources = [
       Authorization: `Token token=${process.env.FAVQKEY}`,
     }),
     normalizer: (results) => {
-      return results; // Add normalizer here
+      return results.quotes.map((result) => ({
+        id: result.id,
+        quote: result.body,
+        attribution: result.author,
+      }));
     },
   },
   {
@@ -29,9 +42,13 @@ const apiSources = [
     getUrl: (query) => {
       return `https://api.adviceslip.com/advice/search/${query}`;
     },
-    getHeaders: () => ({}),
+    getHeaders: () => ({}), // No Auth Required
     normalizer: (results) => {
-      return results; // Add normalizer here
+      return results.slips.map((result) => ({
+        id: result.id,
+        quote: result.advice,
+        attribution: `Anonymous`, // API Does not have an attribution
+      }));
     },
   },
 ];
