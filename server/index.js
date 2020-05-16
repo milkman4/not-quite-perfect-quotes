@@ -38,9 +38,14 @@ async function queryQuoteSources(queryString) {
 app.get('/api/quotes', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
-  const results = await queryQuoteSources(req.query.query);
-
-  res.send(JSON.stringify({ results: _.flatten(results) }));
+  try {
+    const results = await queryQuoteSources(req.query.query);
+    res.status(200);
+    res.send(JSON.stringify({ results: _.flatten(results) }));
+  } catch (e) {
+    res.status(401);
+    res.send(JSON.stringify({ error: e.message }));
+  }
 });
 
 app.listen(3001, () =>

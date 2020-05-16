@@ -9,6 +9,7 @@ class App extends Component {
       query: '',
       loading: false,
       quotes: [],
+      error: '',
       hasSearchedAtLeastOnce: false,
     };
     this.handleChange = this.handleChange.bind(this);
@@ -21,20 +22,36 @@ class App extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    this.setState({ quotes: [], loading: true });
+    this.setState({ quotes: [], loading: true, error: '' });
     fetch(`/api/quotes?query=${encodeURIComponent(this.state.query)}`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else throw new Error(response.message);
+      })
       .then((queryResults) =>
         this.setState({
           quotes: queryResults.results,
           loading: false,
           hasSearchedAtLeastOnce: true,
         })
-      );
+      )
+      .catch((error) => {
+        this.setState({
+          loading: false,
+          error: 'An Error Occured',
+        });
+      });
   }
 
   render() {
-    const { quotes, loading, query, hasSearchedAtLeastOnce } = this.state;
+    const {
+      quotes,
+      loading,
+      query,
+      hasSearchedAtLeastOnce,
+      error,
+    } = this.state;
     return (
       <div className="App">
         <header className="App-header">
@@ -73,6 +90,7 @@ class App extends Component {
             quotes.length === 0 &&
             hasSearchedAtLeastOnce &&
             'No Results'}
+          {!loading && error}
         </article>
       </div>
     );
