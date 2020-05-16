@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const pino = require('express-pino-logger')();
 const fetch = require('node-fetch');
-const { Headers } = require('node-fetch');
+const apiSources = require('./apiSources');
 const _ = require('lodash');
 const dotenv = require('dotenv');
 
@@ -17,41 +17,9 @@ Normalized Quote Object:
   id: Number
   quote: String,
   attribution: String,
+  apiSource: String
 }
 */
-
-const apiSources = [
-  {
-    apiSourceName: 'FavQs',
-    getUrl: (query) => {
-      return `https://favqs.com/api/quotes/?filter=${query}`;
-    },
-    getHeaders: () => ({
-      Authorization: `Token token=${process.env.FAVQKEY}`,
-    }),
-    normalizer: (results) => {
-      return results.quotes.map((result) => ({
-        id: result.id,
-        quote: result.body,
-        attribution: result.author,
-      }));
-    },
-  },
-  {
-    apiSourceName: 'Advice Slip',
-    getUrl: (query) => {
-      return `https://api.adviceslip.com/advice/search/${query}`;
-    },
-    getHeaders: () => ({}), // No Auth Required
-    normalizer: (results) => {
-      return results.slips.map((result) => ({
-        id: result.id,
-        quote: result.advice,
-        attribution: `Anonymous`, // API Does not have an attribution
-      }));
-    },
-  },
-];
 
 async function queryQuoteSources(queryString) {
   return Promise.all(
@@ -78,3 +46,5 @@ app.get('/api/quotes', async (req, res) => {
 app.listen(3001, () =>
   console.log('Express server is running on localhost:3001')
 );
+
+module.exports = { apiSources };
