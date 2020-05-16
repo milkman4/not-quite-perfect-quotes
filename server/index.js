@@ -5,6 +5,8 @@ const fetch = require('node-fetch');
 const apiSources = require('./apiSources');
 const _ = require('lodash');
 const dotenv = require('dotenv');
+const NodeCache = require('node-cache');
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 dotenv.config();
 const app = express();
@@ -35,9 +37,16 @@ app.get('/api/quotes', async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
 
   try {
-    const results = await queryQuoteSources(req.query.query);
+    const queryString = req.query.query;
+    const results = myCache.has(queryString)
+      ? myCache.get(queryString)
+      : await queryQuoteSources(queryString);
+
+    const flattenedResults = _.flatten(results);
+    myCache.set(queryString, flattenedResults);
+
     res.status(200);
-    res.send(JSON.stringify({ results: _.flatten(results) }));
+    res.send(JSON.stringify({ results: flattenedResults }));
   } catch (e) {
     res.status(401);
     res.send(JSON.stringify({ error: e.message }));
