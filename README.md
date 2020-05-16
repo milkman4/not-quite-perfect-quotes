@@ -1,18 +1,27 @@
-# React application with Express server
+# Not Quite Perfect Quotes
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). Then an Express server was added in the `server` directory. The server is proxied via the `proxy` key in `package.json`.
+## Notice:
+
+This project was cloned from a create-react-app + express.js starter kit https://github.com/philnash/react-express-starter - all commits in this repo prior to May 16 2020 are from another author.
+
+### Purpose
+
+This project is created with the inspiration to showcase Asyncronous Logic and Data Manipulation. This achieves these two goals by sending a query to two different quote APIs [FavQ](https://favqs.com/) and [Advice Slip](https://api.adviceslip.com/)
+
+This approach was chosen due to the desire to demonstrate a solution to the "many sources, one destination" search problem. 
 
 ## Using this project
 
 Clone the project, change into the directory and install the dependencies.
 
 ```bash
-git clone https://github.com/philnash/react-express-starter.git
-cd react-express-starter
+git clone https://github.com/milkman4/not-quite-perfect-quotes.git
+cd not-quite-perfect
 npm install
 ```
 
 Create a `.env` file for environment variables in your server.
+We're going to need to add an API key to the `.env` file for the project to work, please contact Matt for the API key or generate your own at `https://favqs.com/`
 
 You can start the server on its own with the command:
 
@@ -32,8 +41,31 @@ Run both applications together with the command:
 npm run dev
 ```
 
+Run server tests with
+
+```bash
+npm run server-test
+```
+
 The React application will run on port 3000 and the server port 3001.
 
-## React Twilio starter
+# Code Overview
 
-The [twilio branch](https://github.com/philnash/react-express-starter/tree/twilio) is a similar setup but also provides endpoints with basic [Access Tokens](https://www.twilio.com/docs/iam/access-tokens) for [Twilio Programmable Chat](https://www.twilio.com/docs/chat) and [Twilio Programmable Video](https://www.twilio.com/docs/video). You can use the project as a base for building React chat or video applications.
+## Server
+
+The Node.JS (Express) server has been chosen to handle most of the business logic of the application, by fetching the quotes from the available APIs and returning the normalized payload to the client.
+
+A few design priorities were established:
+
+1. The implementation should allow for easy extendability of new API end points and put the logic for normalizing that data in a location close to the configuration.
+2. The Promise.all fetch api implementation should allow for errors to occur in individual endpoints without preventing the successful api responses to fail. This should not be a silent failure, however, and some kind of logging should be implemented to alert the developer.
+3. The normalizer functions should be tested to ensure data integrity.
+
+## Front End
+
+The front end react app was designed in order to be as light-weight as possible and perform as little business logic as needed. It's primarily only a view layer, which has handlers for few common sitations:
+
+1. No results from the API
+2. Error handling from the API
+3. A loading spinner to indicate loading time
+4. API + Quote attribution
