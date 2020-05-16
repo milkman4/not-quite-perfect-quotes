@@ -11,16 +11,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-/*
-Normalized Quote Object:
-{
-  id: Number
-  quote: String,
-  attribution: String,
-  apiSource: String
-}
-*/
-
 async function queryQuoteSources(queryString) {
   return Promise.all(
     apiSources.map(async (apiSource) => {
@@ -34,6 +24,7 @@ async function queryQuoteSources(queryString) {
           .then((jsonQuoteResults) => apiSource.normalizer(jsonQuoteResults));
       } catch (e) {
         // if one api errors out, don't break the others.
+        console.log(e);
         return [];
       }
     })

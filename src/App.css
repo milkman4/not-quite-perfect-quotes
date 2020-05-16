@@ -4,7 +4,7 @@
 
 .App-header {
   background-color: #eee;
-  min-height: 10vh;
+  min-height: 15vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,7 +36,7 @@ article {
 }
 
 .App-result-item {
-  border: 1px solid grey;
+  border-bottom: 1px solid grey;
   width: 50%;
   margin-bottom: 10px;
   padding: 10px;

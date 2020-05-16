@@ -1,3 +1,13 @@
+/*
+Normalized Quote Object:
+{
+  id: Number
+  quote: String,
+  attribution: String,
+  apiSource: String
+}
+*/
+
 const apiSources = [
   {
     apiSourceName: 'FavQs',
@@ -8,7 +18,11 @@ const apiSources = [
       Authorization: `Token token=${process.env.FAVQKEY}`,
     }),
     normalizer: (results) => {
-      if (!results.quotes) return [];
+      if (
+        !results.quotes ||
+        (results.quotes.length === 1 && results.quotes[0].id === 0)
+      )
+        return [];
       return results.quotes.map((result) => ({
         id: result.id,
         quote: result.body,

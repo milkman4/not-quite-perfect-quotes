@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import ClipLoader from 'react-spinners/ClipLoader';
+import _ from 'lodash';
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class App extends Component {
       hasSearchedAtLeastOnce,
       error,
     } = this.state;
+
     return (
       <div className="App">
         <header className="App-header">
@@ -70,7 +72,7 @@ class App extends Component {
         <article>
           {quotes.length > 0 &&
             !loading &&
-            quotes.map((quote) => {
+            _.sortBy(quotes, ['quote']).map((quote) => {
               return (
                 <div key={quote.id} className="App-result-item">
                   <div className="App-result-quote">{quote.quote}</div>
@@ -89,7 +91,7 @@ class App extends Component {
           {!loading &&
             quotes.length === 0 &&
             hasSearchedAtLeastOnce &&
-            'No Results'}
+            'No Results found ☹️'}
           {!loading && error}
         </article>
       </div>
