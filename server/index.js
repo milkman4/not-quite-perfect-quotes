@@ -24,6 +24,16 @@ const apiSources = [
       return results; // Add normalizer here
     },
   },
+  {
+    apiSourceName: 'Advice Slip',
+    getUrl: (query) => {
+      return `https://api.adviceslip.com/advice/search/${query}`;
+    },
+    getHeaders: () => ({}),
+    normalizer: (results) => {
+      return results; // Add normalizer here
+    },
+  },
 ];
 
 async function queryQuoteSources(queryString) {
