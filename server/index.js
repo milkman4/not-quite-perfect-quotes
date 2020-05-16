@@ -24,13 +24,18 @@ Normalized Quote Object:
 async function queryQuoteSources(queryString) {
   return Promise.all(
     apiSources.map(async (apiSource) => {
-      return await fetch(apiSource.getUrl(queryString), {
-        headers: apiSource.getHeaders(),
-      })
-        .then((response) => {
-          return response.json();
+      try {
+        return await fetch(apiSource.getUrl(queryString), {
+          headers: apiSource.getHeaders(),
         })
-        .then((jsonQuoteResults) => apiSource.normalizer(jsonQuoteResults));
+          .then((response) => {
+            return response.json();
+          })
+          .then((jsonQuoteResults) => apiSource.normalizer(jsonQuoteResults));
+      } catch (e) {
+        // if one api errors out, don't break the others.
+        return [];
+      }
     })
   );
 }

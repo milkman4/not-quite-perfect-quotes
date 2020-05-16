@@ -8,6 +8,7 @@ const apiSources = [
       Authorization: `Token token=${process.env.FAVQKEY}`,
     }),
     normalizer: (results) => {
+      if (!results.quotes) return [];
       return results.quotes.map((result) => ({
         id: result.id,
         quote: result.body,
@@ -23,6 +24,7 @@ const apiSources = [
     },
     getHeaders: () => ({}), // No Auth Required
     normalizer: (results) => {
+      if (!results.slips) return [];
       return results.slips.map((result) => ({
         id: result.id,
         quote: result.advice,
