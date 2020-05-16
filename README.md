@@ -60,6 +60,7 @@ A few design priorities were established:
 1. The implementation should allow for easy extendability of new API end points and put the logic for normalizing that data in a location close to the configuration.
 2. The Promise.all fetch api implementation should allow for errors to occur in individual endpoints without preventing the successful api responses to fail. This should not be a silent failure, however, and some kind of logging should be implemented to alert the developer.
 3. The normalizer functions should be tested to ensure data integrity.
+4. Adds a cache to improve performance and reduce unneeded api calls
 
 ## Front End
 
@@ -69,3 +70,14 @@ The front end react app was designed in order to be as light-weight as possible 
 2. Error handling from the API
 3. A loading spinner to indicate loading time
 4. API + Quote attribution
+
+# Further Work
+
+Given more time, I'd have continued with development of the following improvements. These improvements don't necessarily increase the feature scope, but improve the functionality as it is while increasing developer confidence, performance and resilience.
+
+1. Rewrite Node API to be in TypeScript. It's important for developers to be confident that the data normalizers, especially, are functioning as expected. Adding typescript and adding interfaces, for the QuoteObject especially, would increase the ability to add new API endpoints with ease in the future.
+2. Add some more quote APIs. It would be fun to add some more sources since these ones are a bit limited. There's some really powerful quote APIs out there, it seems, but most of them require payment of some form.
+3. Add more tests for the front end that test the submission logic with mocked api calls. 
+4. Spend time implementing a component library like MaterialUI to improve the look and feel of the UX. I'd add some animations, too, most likely.
+
+
