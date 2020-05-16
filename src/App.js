@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -42,24 +41,30 @@ class App extends Component {
             <input
               id="name"
               type="text"
+              className="App-search-input"
               value={query}
               onChange={this.handleChange}
             />
             <button type="submit">Submit</button>
           </form>
         </header>
-        <body>
+        <article>
           {quotes.length > 0 && !loading
             ? quotes.map((quote) => {
                 return (
-                  <div key={quote.id}>
-                    {quote.quote}
-                    {quote.attribution}
+                  <div key={quote.id} className="App-result-item">
+                    <div className="App-result-quote">{quote.quote}</div>
+                    <div className="App-result-attribution">
+                      - {quote.attribution}
+                    </div>
+                    <div className="App-result-source">
+                      Api Source: {quote.apiSource}
+                    </div>
                   </div>
                 );
               })
             : `No Results`}
-        </body>
+        </article>
       </div>
     );
   }
