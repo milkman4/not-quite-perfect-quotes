@@ -3,6 +3,7 @@ import './App.css';
 import ClipLoader from 'react-spinners/ClipLoader';
 import _ from 'lodash';
 
+// TODO: Refactor this component to be a function component with hooks
 class App extends Component {
   constructor(props) {
     super(props);
@@ -24,6 +25,7 @@ class App extends Component {
   handleSubmit(event) {
     event.preventDefault();
     this.setState({ quotes: [], loading: true, error: '' });
+
     fetch(`/api/quotes?query=${encodeURIComponent(this.state.query)}`)
       .then((response) => {
         if (response.status === 200) {
@@ -47,11 +49,11 @@ class App extends Component {
 
   render() {
     const {
-      quotes,
-      loading,
-      query,
-      hasSearchedAtLeastOnce,
       error,
+      hasSearchedAtLeastOnce,
+      loading,
+      quotes,
+      query,
     } = this.state;
 
     return (

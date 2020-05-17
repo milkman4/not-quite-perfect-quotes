@@ -6,9 +6,11 @@ const apiSources = require('./apiSources');
 const _ = require('lodash');
 const dotenv = require('dotenv');
 const NodeCache = require('node-cache');
+
+// Initialize Cache with clear interval of 100 seconds
 const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
-dotenv.config();
+dotenv.config(); // initialize environment variables
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
@@ -26,8 +28,8 @@ async function queryQuoteSources(queryString) {
           .then((jsonQuoteResults) => apiSource.normalizer(jsonQuoteResults));
       } catch (e) {
         // if one api errors out, don't break the others.
-        console.log(e);
-        return [];
+        console.log(e); // TODO: replace with some form of logging to a service to alert developers in production that an API is broken
+        return []; // this will allow the Promise.all to succeed with an expected data type of Array
       }
     })
   );
@@ -42,7 +44,7 @@ app.get('/api/quotes', async (req, res) => {
       ? myCache.get(queryString)
       : await queryQuoteSources(queryString);
 
-    const flattenedResults = _.flatten(results);
+    const flattenedResults = _.flatten(results); // return all results in one array
     myCache.set(queryString, flattenedResults);
 
     res.status(200);
