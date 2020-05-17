@@ -16,12 +16,9 @@ Clone the project, change into the directory and install the dependencies.
 
 ```bash
 git clone https://github.com/milkman4/not-quite-perfect-quotes.git
-cd not-quite-perfect
+cd not-quite-perfect-quotes
 npm install
 ```
-
-Create a `.env` file for environment variables in your server.
-We're going to need to add an API key to the `.env` file for the project to work, please contact Matt for the API key or generate your own at `https://favqs.com/`
 
 You can start the server on its own with the command:
 
@@ -55,7 +52,9 @@ The React application will run on port 3000 and the server port 3001.
 
 The Node.JS (Express) server has been chosen to handle most of the business logic of the application, by fetching the quotes from the available APIs and returning the normalized payload to the client.
 
-A few design priorities were established:
+Note: The API Key that's saved in `.env` is a free api key that is rate-limited and easy to obtain. It's terrible practice to commit this to github but in the interest of reducing friction for folks who are cloning this repo, I broke the number one rule of web development - never commit an API key or token to a public (or private, for that matter) repository. Please forgive me.
+
+A few design priorities were established for the server prior to development:
 
 1. The implementation should allow for easy extendability of new API end points and put the logic for normalizing that data in a location close to the configuration.
 2. The Promise.all fetch api implementation should allow for errors to occur in individual endpoints without preventing the successful api responses to fail. This should not be a silent failure, however, and some kind of logging should be implemented to alert the developer.
