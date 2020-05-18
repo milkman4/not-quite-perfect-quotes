@@ -52,6 +52,8 @@ The React application will run on port 3000 and the server port 3001.
 
 The Node.JS (Express) server has been chosen to handle most of the business logic of the application, by fetching the quotes from the available APIs and returning the normalized payload to the client.
 
+The two files that contain the code that accomplishes the goals of this project, which is to demonstrate Asyncronous logic and Data Manipulation are - [index.js](https://github.com/milkman4/not-quite-perfect-quotes/blob/master/server/index.js) and [apiSources.js](https://github.com/milkman4/not-quite-perfect-quotes/blob/master/server/apiSources.js)
+
 Note: The API Key that's saved in `.env` is a free api key that is rate-limited and easy to obtain. It's terrible practice to commit this to github but in the interest of reducing friction for folks who are cloning this repo, I broke the number one rule of web development - never commit an API key or token to a public (or private, for that matter) repository. Please forgive me.
 
 A few design priorities were established for the server prior to development:
@@ -63,7 +65,11 @@ A few design priorities were established for the server prior to development:
 
 ## Front End
 
-The front end react app was designed in order to be as light-weight as possible and perform as little business logic as needed. It's primarily only a view layer, which has handlers for few common sitations:
+The front end react app was designed in order to be as light-weight as possible and perform as little business logic as needed. 
+
+The root component which contains most of the front end code is in [App.js](https://github.com/milkman4/not-quite-perfect-quotes/blob/master/src/App.js) with styling in [App.css](https://github.com/milkman4/not-quite-perfect-quotes/blob/master/src/App.css)
+
+It's primarily only a view layer, which has handlers for few common situations:
 
 1. No results from the API
 2. Error handling from the API
