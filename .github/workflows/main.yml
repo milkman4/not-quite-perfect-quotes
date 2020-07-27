@@ -25,4 +25,8 @@ jobs:
 
     # Runs a single command using the runners shell
     - name: Run a one-line script
-      run: npm version ${{github.event.inputs.version}}
+      run: |
+        git config --global user.name "abc"
+        git config --global user.email "abc@example.com"
+        npm version ${{github.event.inputs.version}}
+      
